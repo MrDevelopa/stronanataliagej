@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JestemYahoo | Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Urbanist:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#3B82F6',
+              dark: '#0A0A0A',
+              gray: '#171717'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Urbanist', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* --- NOWE: DODATKOWE EFEKTY REVEAL DLA PORTFOLIO --- */
+    .portfolio-card img {
+      filter: grayscale(20%) brightness(80%);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .group:hover .portfolio-card img {
+      filter: grayscale(0%) brightness(110%);
+      transform: scale(1.15) rotate(1deg);
+    }
+    .portfolio-overlay {
+      background: linear-gradient(0deg, rgba(59,130,246,0.4) 0%, rgba(0,0,0,0) 60%) !important;
+    }
+
+    /* --- NOWE: JESZCZE LEPSZY ANIMOWANY SCROLLBAR --- */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0A0A0A;
+      border-left: 1px solid rgba(255,255,255,0.05);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #161616 0%, #161616 50%, #161616 100%);
+      background-size: 100% 200%;
+      border-radius: 100px;
+      border: 3px solid #161616;
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      animation: scrollGradient 5s linear infinite;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #161616;
+      border: 2px solid #161616;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    }
+    @keyframes scrollGradient {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 0% 200%; }
+    }
+    /* Firefox */
+    * { scrollbar-width: thin; scrollbar-color: #5a5a5a #161616; }
+
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-aos] { transition-property: transform, opacity; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-thumb { background:#333; border-radius:4px; }
+    ::-webkit-scrollbar-thumb:hover { background:#000000; }
+
+    /* --- ULEPSZENIA NAVBARA: SMOOTH & ACTIVE --- */
+    nav {
+      transition: 
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+        background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+        backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+        padding 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      will-change: transform, padding, background-color;
+    }
+
+    nav.nav-hidden { transform: translateY(-100.1%); }
+
+    nav.nav-scrolled {
+      background-color: rgba(10, 10, 10, 0.7) !important;
+      border-color: rgba(59, 130, 246, 0.2);
+      backdrop-filter: blur(20px) saturate(180%);
+      padding-top: 0.6rem !important;
+      padding-bottom: 0.6rem !important;
+    }
+
+    .nav-item { 
+      position: relative; 
+      transition: color 0.4s ease; 
+      padding: 0.5rem 1rem;
+      border-radius: 99px;
+      z-index: 1;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 99px;
+      scale: 0;
+      opacity: 0;
+      z-index: -1;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-item:hover::before {
+      scale: 1;
+      opacity: 1;
+    }
+
+    .nav-item.active { 
+      color: #3B82F6 !important; 
+      background: rgba(59, 130, 246, 0.05);
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); 
+    }
+
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #3B82F6;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+    }
+    .nav-item.active::after { width: 40%; }
+
+    .glass{
+      background:rgba(255,255,255,.05);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.08)
+    }
+
+    .glow{
+      text-shadow:0 0 25px rgba(59,130,246,.4)
+    }
+
+    .bg-animated::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:radial-gradient(circle at 20% 30%, rgba(59,130,246,.12), transparent 40%),
+                 radial-gradient(circle at 80% 70%, rgba(99,102,241,.10), transparent 40%);
+      animation: floatBg 12s ease-in-out infinite alternate;
+      z-index:-20;
+    }
+
+    @keyframes floatBg{
+      from{transform:translateY(0)}
+      to{transform:translateY(-60px)}
+    }
+    #cursor{animation:blink 1s steps(2,start) infinite; font-weight:300;}
+    @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+    .glow-text{ text-shadow:0 0 12px currentColor }
+
+    input, textarea {
+      background: rgba(255,255,255,0.03) !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      outline: none !important;
+      transition: all 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      border-color: #3B82F6 !important;
+      background: rgba(255,255,255,0.06) !important;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+    }
+
+    .social-icon {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      line-height: 0;
+      font-size: 26px;
+    }
+    .social-icon:hover { transform: translateY(-5px); }
+    .social-icon.yt:hover { color: #FF0000; filter: drop-shadow(0 0 8px rgba(255,0,0,0.5)); }
+    .social-icon.dc:hover { color: #5865F2; filter: drop-shadow(0 0 8px rgba(88,101,242,0.4)); }
+    .social-icon.ig:hover { color: #E1306C; filter: drop-shadow(0 0 10px rgba(225,48,108,0.6)); }
+    .social-icon.be:hover { color: #0057ff; filter: drop-shadow(0 0 8px rgba(0,87,255,0.5)); }
+
+    .star-glow {
+      filter: drop-shadow(0 0 6px rgba(234, 179, 8, 0.5));
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .portfolio-card {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .portfolio-overlay {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(59, 130, 246, 0.1) 100%);
+      opacity: 0;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(0px);
+    }
+    .group:hover .portfolio-overlay {
+      opacity: 1;
+      backdrop-filter: blur(4px);
+    }
+    .portfolio-content {
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .group:hover .portfolio-content {
+      transform: translateY(0);
+    }
+    .group:hover .portfolio-card {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-discord {
+      background: rgba(88, 101, 242, 0.1);
+      border: 1px solid rgba(88, 101, 242, 0.3);
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-discord:hover {
+      background: rgba(88, 101, 242, 0.2);
+      border-color: rgba(88, 101, 242, 1);
+      box-shadow: 0 10px 20px -10px rgba(88, 101, 242, 0.5);
+    }
+    .btn-discord .discord-icon {
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .btn-discord:hover .discord-icon {
+      transform: rotate(360deg) scale(1.1);
+    }
+    .btn-discord.copied {
+      background: #22c55e !important;
+      border-color: #22c55e !important;
+      color: white !important;
+    }
+
+    /* NOWE: LEPSZA ANIMACJA SAMOLOTU */
+    @keyframes paperPlaneTakeoff {
+      0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+      15% { transform: translate(-10px, 10px) rotate(-15deg); }
+      100% { transform: translate(250px, -250px) rotate(30deg); opacity: 0; }
+    }
+    /* NOWE: ANIMACJA POWROTU */
+    @keyframes paperPlaneReturn {
+      0% { transform: translate(-150px, 150px) rotate(-30deg); opacity: 0; }
+      100% { transform: translate(0, 0) rotate(0); opacity: 1; }
+    }
+    .send-anim-active { 
+      display: inline-block !important;
+      animation: paperPlaneTakeoff 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important; 
+    }
+    .send-anim-return {
+      display: inline-block !important;
+      animation: paperPlaneReturn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+    }
+
+    /* --- DODANE: STYLE DLA DOPRACOWANEGO PORTFOLIO --- */
+    .portfolio-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(59, 130, 246, 0.1), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    .portfolio-card:hover::after { opacity: 1; }
+    
+    .portfolio-item { transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+    .portfolio-item.hidden { opacity: 0; transform: scale(0.8); pointer-events: none; position: absolute; }
+    
+    .filter-btn.active {
+      background: #3B82F6;
+      border-color: #3B82F6;
+      color: white;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+  </style>
+</head>
+
+<body class="bg-brand-dark text-white overflow-x-hidden relative bg-animated">
+
+<div class="fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute -top-48 -left-48 w-[700px] h-[700px] bg-brand-blue/20 rounded-full blur-[180px] animate-pulse"></div>
+  <div class="absolute top-1/3 right-[-200px] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[200px] animate-pulse"></div>
+  <div class="absolute bottom-[-200px] left-1/3 w-[600px] h-[600px] bg-cyan-500/20 rounded-full blur-[200px] animate-pulse"></div>
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:64px_64px] opacity-[0.15]"></div>
+</div>
+
+<nav id="navbar" class="fixed top-0 w-full z-50 px-6 py-4 backdrop-blur-md bg-black/40 border-b border-white/5" data-aos="fade-down">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <h1 class="text-2xl font-display font-bold tracking-tight">
+      JESTEMYAHOO<span class="text-brand-blue">.</span>
+    </h1>
+    <div class="hidden md:flex gap-8 text-sm text-gray-300">
+      <a href="#" class="nav-item hover:text-white transition">Start</a>
+      <a href="#portfolio" class="nav-item hover:text-white transition">Portfolio</a>
+      <a href="#opinie" class="nav-item hover:text-white transition">Opinie</a>
+      <a href="#faq" class="nav-item hover:text-white transition">FAQ</a>
+      <a href="#contact" class="nav-item hover:text-white transition">Kontakt</a>
+    </div>
+  </div>
+</nav>
+
+<section id="start" class="min-h-screen flex items-center justify-center text-center px-6 pt-28 relative overflow-hidden">
+  <div data-aos="fade-up" class="max-w-3xl">
+    <span class="inline-block mb-6 px-5 py-2 text-xs tracking-widest uppercase rounded-full border border-brand-blue/40 bg-brand-blue/10 text-center overflow-hidden" style="width: 28ch">
+      <span id="typewriter" class="transition-colors duration-300"></span><span id="cursor" class="ml-1">|</span>
+    </span>
+
+    <h2 class="text-6xl md:text-8xl font-display font-bold leading-[1.05] mb-6">
+      Tworzę wizualne <br />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-blue-400 glow">doświadczenia</span>
+    </h2>
+
+    <p class="text-lg md:text-xl text-gray-400 mb-10">
+      Montaż wideo, grafika i kreatywne treści zaprojektowane tak, aby przyciągać uwagę i budować markę.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button onclick="copyDiscord(event)" id="discordBtnWrap" class="btn-discord px-8 py-4 rounded-full flex items-center gap-3">
+        <div class="discord-icon flex items-center justify-center bg-white/10 rounded-full w-8 h-8">
+            <i class="fab fa-discord text-[#5865F2] text-lg"></i>
+        </div>
+        <div class="flex flex-col items-start leading-none text-left pointer-events-none">
+            <span class="text-[10px] uppercase tracking-widest opacity-60 mb-1">Skopiuj ID</span>
+            <span id="discordBtnText" class="font-bold tracking-wide">jestemyahoo</span>
+        </div>
+      </button>
+
+      <a href="#portfolio" class="px-8 py-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition flex items-center justify-center">
+        Zobacz portfolio
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+    <div class="md:col-span-2 glass rounded-3xl p-8" data-aos="fade-right">
+      <h3 class="text-2xl font-bold mb-4">O mnie<span class="text-brand-blue">.</span></h3>
+      <p class="text-gray-400 leading-relaxed">
+        Jestem kreatywnym montażystą wideo i grafikiem. Specjalizuję się w dynamicznych edycjach, nowoczesnym designie oraz treściach dopasowanych do algorytmów YouTube i social mediów.
+      </p>
+    </div>
+    <div class="glass rounded-3xl p-8 text-center" data-aos="fade-left">
+      <i class="fas fa-briefcase text-3xl text-brand-blue mb-3"></i>
+      <h4 class="text-4xl font-bold">2+</h4>
+      <p class="text-sm text-gray-500 uppercase">lata doświadczenia</p>
+    </div>
+    <div class="glass rounded-3xl p-8 md:col-span-3" data-aos="fade-up">
+      <h4 class="font-bold mb-4">Narzędzia</h4>
+      <div class="flex flex-wrap gap-3">
+        <span class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-brand-blue/50 transition cursor-default">Photoshop</span>
+        <span class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-brand-blue/50 transition cursor-default">Cinema 4D</span>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+ 
+ /* --- STYLE PODSTAWOWE --- */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .portfolio-item {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .portfolio-item.hidden-item {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    pointer-events: none;
+    position: absolute;
+  }
+
+  /* --- PRZYCISKI FILTROWANIA --- */
+  .filter-btn {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a1a1aa;
+    cursor: pointer;
+  }
+
+  .filter-btn.active {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  }
+
+  .portfolio-desc {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    font-weight: 500;
+  }
+
+  /* --- MODAL I NAWIGACJA --- */
+  #imageModal.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .modal-glow {
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scale(0.8) translateY(30px);
+  }
+
+  #imageModal.active .modal-glow {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-glow::before {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+    z-index: -1;
+    filter: blur(40px);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  #imageModal.active .modal-glow::before {
+    opacity: 1;
+  }
+
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 110;
+  }
+
+  .nav-btn:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    transform: scale(1.1);
+  }
+
+  #modalLoader {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: rotate(90deg);
+    color: #ff4d4d;
+  }
+
+  .fade-anim {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+</style>
+
+<section id="portfolio" class="py-24 px-6 bg-brand-gray/40 overflow-hidden text-white font-sans">
+  <div class="max-w-6xl mx-auto text-center">
+    <h3 class="text-4xl font-display font-bold mb-6">Wybrane <span class="text-brand-blue">Projekty.</span></h3>
+    <p class="text-zinc-400 text-lg mb-12">Zobacz moje ostatnie realizacje. Każdy projekt to inna historia.</p>
+    
+    <div class="flex flex-wrap justify-center gap-4 mb-16">
+      <button id="filter-all" onclick="filterPortfolio('all')" class="filter-btn active px-8 py-2.5 rounded-full text-sm font-semibold tracking-wide uppercase">Wszystko</button>
+      <button id="filter-gfx" onclick="filterPortfolio('gfx')" class="filter-btn px-8 py-2.5 rounded-full text-sm font-semibold tracking-wide uppercase">Grafika / GFX</button>
+      <button id="filter-social" onclick="filterPortfolio('social')" class="filter-btn px-8 py-2.5 rounded-full text-sm font-semibold tracking-wide uppercase">Social Media</button>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 relative min-h-[600px]" id="portfolio-grid">
+      
+      <div class="portfolio-item group" data-category="gfx">
+        <div class="portfolio-card glass rounded-[2.5rem] h-80 overflow-hidden relative cursor-pointer" onclick="openModal(0)">
+          <img src="https://i.imgur.com/KVw9mBM.png" alt="Miniaturka" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+          <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-8 text-left bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+            <h4 class="text-xl font-bold text-white mb-1">Miniaturka</h4>
+            <p class="portfolio-desc text-sm italic">Design przyciągający oko</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-item group" data-category="gfx">
+        <div class="portfolio-card glass rounded-[2.5rem] h-80 overflow-hidden relative cursor-pointer" onclick="openModal(1)">
+          <img src="https://i.imgur.com/bxrMTFg.png" alt="Miniaturka" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+          <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-8 text-left bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+            <h4 class="text-xl font-bold text-white mb-1">Miniaturka</h4>
+            <p class="portfolio-desc text-sm italic">Kreatywna kompozycja</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-item group" data-category="gfx">
+        <div class="portfolio-card glass rounded-[2.5rem] h-80 overflow-hidden relative cursor-pointer" onclick="openModal(2)">
+          <img src="https://i.imgur.com/XTyOaXz.png" alt="Miniaturka" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+          <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-8 text-left bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+            <h4 class="text-xl font-bold text-white mb-1">Miniaturka</h4>
+            <p class="portfolio-desc text-sm italic">Efekty wizualne GFX</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-item group" data-category="gfx">
+        <div class="portfolio-card glass rounded-[2.5rem] h-80 overflow-hidden relative cursor-pointer" onclick="openModal(3)">
+          <img src="https://i.imgur.com/4hf42Do.png" alt="Miniaturka" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+          <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-8 text-left bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+            <h4 class="text-xl font-bold text-white mb-1">Miniaturka</h4>
+            <p class="portfolio-desc text-sm italic">Wysoki współczynnik CTR</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-item group" data-category="social">
+        <div class="portfolio-card glass rounded-[2.5rem] h-80 overflow-hidden relative cursor-pointer" onclick="openModal(4)">
+          <img src="https://i.imgur.com/eZuYadj.png" alt="Profilowe" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+          <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-8 text-left bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+            <h4 class="text-xl font-bold text-white mb-1">Miniaturka=====</h4>
+            <p class="portfolio-desc text-sm italic">Branding osobisty</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-item group" data-category="gfx">
+        <div class="portfolio-card glass rounded-[2.5rem] h-80 overflow-hidden relative cursor-pointer" onclick="openModal(5)">
+          <img src="https://i.imgur.com/vdc8Dy9.png" alt="Miniaturka" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+          <div class="portfolio-overlay absolute inset-0 flex flex-col justify-end p-8 text-left bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+            <h4 class="text-xl font-bold text-white mb-1">Miniaturka</h4>
+            <p class="portfolio-desc text-sm italic">Profesjonalna oprawa</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="imageModal" class="fixed inset-0 z-[100] bg-black/95 hidden items-center justify-center opacity-0 pointer-events-none backdrop-blur-md transition-all duration-500">
+  
+  <button onclick="prevImage()" class="nav-btn fixed left-4 md:left-10 hidden md:flex"><i class="fa-solid fa-chevron-left"></i></button>
+  <button onclick="nextImage()" class="nav-btn fixed right-4 md:right-10 hidden md:flex"><i class="fa-solid fa-chevron-right"></i></button>
+
+  <div class="relative max-w-5xl w-full mx-4 flex flex-col items-center">
+    
+    <div class="w-full flex justify-between items-center mb-4">
+      <div id="modalCounter" class="px-4 py-2 bg-white/5 rounded-full border border-white/10 text-brand-blue font-bold text-sm tracking-widest">
+        1 / 6
+      </div>
+      <button onclick="closeModal()" class="close-btn text-white text-2xl focus:outline-none"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="modal-glow w-full relative">
+      <div id="modalLoader"></div>
+      <div class="rounded-[2.5rem] overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.8)] bg-zinc-900 border border-white/10">
+        <img id="modalImage" src="" alt="Podgląd" class="w-full h-auto max-h-[75vh] object-contain mx-auto opacity-0 fade-anim">
+        
+        <div class="p-8 bg-gradient-to-b from-zinc-900/50 to-zinc-950 border-t border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <span class="text-brand-blue text-xs font-bold uppercase tracking-[0.2em] mb-1.5 block">Realizacja</span>
+            <h3 id="modalTitle" class="text-2xl font-bold text-white tracking-tight"></h3>
+          </div>
+          <p class="text-zinc-500 text-[10px] font-medium uppercase tracking-widest leading-none">© 2025 Creative Studio</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // DANE PROJEKTÓW
+  const projects = [
+    { src: 'https://i.imgur.com/KVw9mBM.png', title: 'Miniaturka Gamingowa' },
+    { src: 'https://i.imgur.com/bxrMTFg.png', title: 'Miniaturka VLOG' },
+    { src: 'https://i.imgur.com/XTyOaXz.png', title: 'Miniaturka GFX' },
+    { src: 'https://i.imgur.com/4hf42Do.png', title: 'Miniaturka YouTube' },
+    { src: 'https://i.imgur.com/eZuYadj.png', title: 'Profilowe Personal Branding' },
+    { src: 'https://i.imgur.com/vdc8Dy9.png', title: 'Miniaturka Gamingowa 2' }
+  ];
+
+  let currentIndex = 0;
+
+  // FILTROWANIE Z POPRAWIONYM PODŚWIETLANIEM
+  function filterPortfolio(category) {
+    const items = document.querySelectorAll('.portfolio-item');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    // Reset i ustawienie aktywnego przycisku
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    if(category === 'all') document.getElementById('filter-all').classList.add('active');
+    if(category === 'gfx') document.getElementById('filter-gfx').classList.add('active');
+    if(category === 'social') document.getElementById('filter-social').classList.add('active');
+
+    items.forEach(item => {
+      if (category === 'all' || item.dataset.category === category) {
+        item.classList.remove('hidden-item');
+        item.style.display = 'block';
+      } else {
+        item.classList.add('hidden-item');
+        setTimeout(() => { if(item.classList.contains('hidden-item')) item.style.display = 'none'; }, 400);
+      }
+    });
+  }
+
+  // MODAL LOGIKA
+  function openModal(index) {
+    currentIndex = index;
+    const modal = document.getElementById('imageModal');
+    updateModalContent();
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(() => {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }, 20);
+  }
+
+  function updateModalContent() {
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalCounter = document.getElementById('modalCounter');
+    const loader = document.getElementById('modalLoader');
+
+    modalImg.style.opacity = '0';
+    modalImg.style.transform = 'scale(0.95)';
+    loader.style.display = 'block';
+
+    const current = projects[currentIndex];
+    modalImg.src = current.src;
+    modalTitle.innerText = current.title;
+    modalCounter.innerText = `${currentIndex + 1} / ${projects.length}`; // AKTUALIZACJA LICZNIKA
+
+    modalImg.onload = function() {
+      loader.style.display = 'none';
+      modalImg.style.opacity = '1';
+      modalImg.style.transform = 'scale(1)';
+    };
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % projects.length;
+    updateModalContent();
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+    updateModalContent();
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.remove('active');
+    setTimeout(() => {
+      modal.classList.replace('flex', 'hidden');
+      document.body.style.overflow = '';
+    }, 500);
+  }
+
+  // EVENTY
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('imageModal').classList.contains('active')) return;
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+    if (e.key === "Escape") closeModal();
+  });
+
+  document.getElementById('imageModal').addEventListener('click', (e) => {
+    if (e.target.id === 'imageModal') closeModal();
+  });
+</script>
+
+<section id="opinie" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <h3 class="text-4xl font-display font-bold mb-12 text-center" data-aos="fade-up">Co mówią klienci<span class="text-brand-blue">.</span></h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-between h-full" data-aos="zoom-in">
+        <div>
+          <div class="flex justify-between items-start mb-6 text-yellow-500 text-sm">
+            <div class="flex gap-1"><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i></div>
+            <span class="text-[10px] text-gray-500 font-mono">31.01.2026</span>
+          </div>
+          <p class="text-gray-400 italic mb-8 leading-relaxed">"4 tiktoki zrobione 11/10 :]"</p>
+        </div>
+        <div class="flex items-center gap-4 border-t border-white/5 pt-6">
+          <div class="w-12 h-12 rounded-full bg-brand-blue/20 flex items-center justify-center font-bold text-brand-blue text-sm shadow-inner shadow-brand-blue/30">K</div>
+          <div><p class="font-bold text-sm">Premsson</p><p class="text-[10px] text-gray-600 uppercase tracking-widest">Klient</p></div>
+        </div>
+      </div>
+      <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-between h-full" data-aos="zoom-in" data-aos-delay="100">
+        <div>
+          <div class="flex justify-between items-start mb-6 text-yellow-500 text-sm">
+            <div class="flex gap-1"><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i></div>
+            <span class="text-[10px] text-gray-500 font-mono">12.03.2025</span>
+          </div>
+          <p class="text-gray-400 italic mb-8 leading-relaxed">"Dla yahoo 11/10, zajebiste miniaturki."</p>
+        </div>
+        <div class="flex items-center gap-4 border-t border-white/5 pt-6">
+          <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center font-bold text-purple-500 text-sm shadow-inner shadow-purple-500/30">M</div>
+          <div><p class="font-bold text-sm">MrBricklez</p><p class="text-[10px] text-gray-600 uppercase tracking-widest">Youtuber</p></div>
+        </div>
+      </div>
+      <div class="glass p-10 rounded-[2.5rem] flex flex-col justify-between h-full" data-aos="zoom-in" data-aos-delay="200">
+        <div>
+          <div class="flex justify-between items-start mb-6 text-yellow-500 text-sm">
+            <div class="flex gap-1"><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i><i class="fas fa-star star-glow"></i></div>
+            <span class="text-[10px] text-gray-500 font-mono">22.05.2025</span>
+          </div>
+          <p class="text-gray-400 italic mb-8 leading-relaxed">"Polecam, jest Gicik. Szybka realizacja miniaturki ocena według mnie dobra."</p>
+        </div>
+        <div class="flex items-center gap-4 border-t border-white/5 pt-6">
+          <div class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center font-bold text-cyan-500 text-sm shadow-inner shadow-cyan-500/30">A</div>
+          <div><p class="font-bold text-sm">dropsi.stas</p><p class="text-[10px] text-gray-600 uppercase tracking-widest">TikToker</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="py-24 px-6 bg-brand-gray/20">
+  <div class="max-w-4xl mx-auto">
+    <h3 class="text-4xl font-display font-bold mb-12 text-center" data-aos="fade-up">FAQ<span class="text-brand-blue">.</span></h3>
+    <div class="space-y-4">
+      <div class="faq-item glass rounded-2xl p-6 cursor-pointer group transition" onclick="toggleFaq(this)" data-aos="fade-up">
+        <div class="flex justify-between items-center">
+          <h4 class="font-bold text-lg group-hover:text-brand-blue transition">???????????????</h4>
+          <i class="fas fa-chevron-down faq-icon transition-transform duration-300"></i>
+        </div>
+        <div class="faq-answer mt-4 text-gray-400">Standardowy czas realizacji to od 2 do 5 dni roboczych, zależnie od skomplikowania projektu i długości surowego materiału.</div>
+      </div>
+      <div class="faq-item glass rounded-2xl p-6 cursor-pointer group transition" onclick="toggleFaq(this)" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex justify-between items-center">
+          <h4 class="font-bold text-lg group-hover:text-brand-blue transition">Czy robisz też miniaturki do filmów?</h4>
+          <i class="fas fa-chevron-down faq-icon transition-transform duration-300"></i>
+        </div>
+        <div class="faq-answer mt-4 text-gray-400">Tak! Każdy pakiet montażu można rozszerzyć o wykonanie profesjonalnej, "klikalnej" miniaturki dopasowanej do tematyki filmu.</div>
+      </div>
+      <div class="faq-item glass rounded-2xl p-6 cursor-pointer group transition" onclick="toggleFaq(this)" data-aos="fade-up" data-aos-delay="200">
+        <div class="flex justify-between items-center">
+          <h4 class="font-bold text-lg group-hover:text-brand-blue transition">W jakich programach pracujesz?</h4>
+          <i class="fas fa-chevron-down faq-icon transition-transform duration-300"></i>
+        </div>
+        <div class="faq-answer mt-4 text-gray-400">Moim głównym narzędziem jest Adobe Photoshop. Grafiki przygotowuję w Photoshopie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="py-24 px-6 relative">
+  <div class="max-w-4xl mx-auto glass rounded-[3rem] p-8 md:p-16 relative overflow-hidden" data-aos="zoom-in">
+    <div class="text-center mb-12">
+      <h3 class="text-4xl font-display font-bold mb-4">Zacznijmy projekt<span class="text-brand-blue">.</span></h3>
+      <p class="text-gray-400">Napisz do mnie, a odpowiem tak szybko, jak to możliwe.</p>
+    </div>
+    <form id="contact-form" action="https://formspree.io/f/mjgrnbpq" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="flex flex-col gap-2">
+       <label class="text-[10px] uppercase font-bold text-gray-500 ml-4 tracking-[0.2em]">Twoje Imię</label>
+        <input type="text" name="name" required placeholder="Jan Kowalski" class="p-4 rounded-2xl text-white">
+      </div>
+      <div class="flex flex-col gap-2">
+             <label class="text-[10px] uppercase font-bold text-gray-500 ml-4 tracking-[0.2em]">Adres Email</label>
+        <input type="email" name="_replyto" required placeholder="twoj@email.com" class="p-4 rounded-2xl text-white">
+      </div>
+      <div class="flex flex-col gap-2 md:col-span-2">
+       <label class="text-[10px] uppercase font-bold text-gray-500 ml-4 tracking-[0.2em]">Twoja Wiadomość</label>
+        <textarea name="message" rows="5" required placeholder="Opisz swój projekt..." class="p-4 rounded-2xl text-white"></textarea>
+      </div>
+      <button type="submit" id="submit-btn" class="md:col-span-2 bg-brand-blue hover:bg-blue-600 text-white font-bold py-4 rounded-2xl transition shadow-lg shadow-brand-blue/20 flex items-center justify-center gap-3 group overflow-hidden">
+        <span id="btn-text">Wyślij wiadomość</span>
+        <i class="fas fa-paper-plane text-sm" id="plane-icon"></i>
+      </button>
+    </form>
+  </div>
+</section>
+
+<footer class="py-12 px-6 border-t border-white/5">
+  <div class="max-w-6xl mx-auto flex flex-col items-center gap-8 text-center">
+    <div class="flex items-center justify-center gap-4">
+      <a href="https://youtube.com/@jestemyahoo" target="_blank" class="social-icon yt"><i class="fab fa-youtube"></i></a>
+      <a href="https://discord.gg/W9D7BZzghm" target="_blank" class="social-icon dc"><i class="fab fa-discord"></i></a>
+      <a href="https://instagram.com/niemamnarazie" target="_blank" class="social-icon ig"><i class="fab fa-instagram"></i></a>
+      <a href="https://behance.net/Yahooo" target="_blank" class="social-icon be"><i class="fab fa-behance"></i></a>
+    </div>
+    <div>
+      <p class="text-gray-500 text-sm mb-2">© 2026 JESTEMYAHOO | Kreatywne Portfolio</p>
+      <p class="text-gray-700 text-xs">Zaprojektowane z pasją do tworzenia grafik.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+});
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+const nav = document.getElementById('navbar');
+const navLinks = document.querySelectorAll('.nav-item');
+const pageSections = document.querySelectorAll('section[id]');
+let lastScrollY = 0;
+
+lenis.on('scroll', ({ scroll }) => {
+  if (scroll > 20) {
+    nav.classList.add('nav-scrolled');
+  } else {
+    nav.classList.remove('nav-scrolled');
+  }
+
+  if (scroll > lastScrollY && scroll > 400) {
+    nav.classList.add('nav-hidden');
+  } else {
+    nav.classList.remove('nav-hidden');
+  }
+  lastScrollY = scroll;
+
+  let current = "";
+  pageSections.forEach((section) => {
+    const sectionTop = section.offsetTop;
+    if (scroll >= sectionTop - 250) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.remove("active");
+    const href = link.getAttribute("href").replace("#", "");
+    if ((href === "" || href === "start") && (current === "start" || current === "")) {
+      link.classList.add("active");
+    } else if (href === current) {
+      link.classList.add("active");
+    }
+  });
+});
+
+AOS.init({ once:true, duration:800 });
+
+const roles = [{ text: "Video Editor", color: "#3B82F6" }, { text: "Graphic Designer", color: "#A855F7" }, { text: "Content Creator", color: "#22D3EE" }];
+let rI = 0, cI = 0, isD = false;
+const el = document.getElementById('typewriter');
+function type() {
+  const cur = roles[rI];
+  el.style.color = cur.color;
+  el.classList.add('glow-text');
+  if (!isD && cI < cur.text.length) { el.innerText = cur.text.substring(0, ++cI); setTimeout(type, 110); }
+  else if (isD && cI > 0) { el.innerText = cur.text.substring(0, --cI); setTimeout(type, 70); }
+  else { isD = !isD; if (!isD) rI = (rI + 1) % roles.length; setTimeout(type, isD ? 2000 : 600); }
+}
+type();
+
+const btnWrap = document.getElementById('discordBtnWrap');
+const btnText = document.getElementById('discordBtnText');
+btnWrap.addEventListener('mousemove', (e) => {
+  const rect = btnWrap.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const moveX = (x - rect.width / 2) / 8;
+  const moveY = (y - rect.height / 2) / 8;
+  btnWrap.style.transform = `translate(${moveX}px, ${moveY}px)`;
+});
+btnWrap.addEventListener('mouseleave', () => { btnWrap.style.transform = `translate(0px, 0px)`; });
+
+function copyDiscord(event){
+  const id = 'jestemyahoo';
+  const icon = btnWrap.querySelector('.discord-icon i');
+  navigator.clipboard.writeText(id);
+  btnWrap.classList.add('copied');
+  btnText.innerText = 'Skopiowano!';
+  icon.className = 'fas fa-check text-white';
+  const rect = btnWrap.getBoundingClientRect();
+  confetti({ 
+    particleCount: 100, spread: 70, 
+    origin: { x: (rect.left + rect.width/2)/window.innerWidth, y: (rect.top + rect.height/2)/window.innerHeight },
+    colors: ['#22c55e', '#ffffff', '#5865F2'] 
+  });
+  setTimeout(() => {
+    btnWrap.classList.remove('copied');
+    btnText.innerText = id;
+    icon.className = 'fab fa-discord text-[#5865F2]';
+  }, 2000);
+}
+
+function toggleFaq(el) { el.classList.toggle('active'); }
+
+const form = document.getElementById("contact-form");
+const btn = document.getElementById("submit-btn");
+const btnTxt = document.getElementById("btn-text");
+const planeIcon = document.getElementById("plane-icon");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
+  btnTxt.innerText = 'Wysyłanie...';
+  
+  const data = new FormData(e.target);
+  fetch(e.target.action, {
+    method: 'POST', body: data, headers: { 'Accept': 'application/json' }
+  }).then(res => {
+    if (res.ok) {
+      planeIcon.classList.remove('send-anim-return');
+      planeIcon.classList.add('send-anim-active');
+      
+      setTimeout(() => {
+          btn.classList.replace('bg-brand-blue', 'bg-green-500');
+          btnTxt.innerHTML = '<i class="fas fa-check mr-2"></i> Wiadomość wysłana!';
+          form.reset();
+          confetti({ 
+            particleCount: 150, 
+            spread: 70, 
+            origin: { y: 0.6 },
+            colors: ['#22c55e', '#ffffff'] 
+          });
+      }, 400);
+
+      setTimeout(() => {
+        btn.classList.replace('bg-green-500', 'bg-brand-blue');
+        btnTxt.innerText = 'Wyślij wiadomość';
+        planeIcon.classList.remove('send-anim-active');
+        planeIcon.classList.add('send-anim-return');
+        btn.disabled = false;
+        setTimeout(() => {
+            planeIcon.classList.remove('send-anim-return');
+        }, 800);
+      }, 4000);
+    }
+  });
+});
+
+/* --- DODANE: LOGIKA PORTFOLIO (FILTROWANIE + MOUSE GLOW) --- */
+function filterPortfolio(category) {
+  const items = document.querySelectorAll('.portfolio-item');
+  const buttons = document.querySelectorAll('.filter-btn');
+
+  buttons.forEach(btn => {
+    btn.classList.remove('active');
+    if(btn.innerText.toLowerCase().includes(category) || (category === 'all' && btn.innerText === 'Wszystko')) {
+      btn.classList.add('active');
+    }
+  });
+
+  items.forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+      if (category === 'all' || item.getAttribute('data-category') === category) {
+        item.classList.remove('hidden');
+        item.style.position = 'relative';
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'scale(1)';
+        }, 50);
+      } else {
+        item.classList.add('hidden');
+      }
+    }, 400);
+  });
+}
+
+document.querySelectorAll('.portfolio-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  });
+});
+
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.onkeydown = function(e) {
+  if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
+};
+</script>
+
+</body>
+</html>
